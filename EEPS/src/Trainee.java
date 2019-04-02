@@ -144,7 +144,41 @@ public class Trainee extends Employee{
 
         }
     }
+    
+    public void viewTrainees()
+    {
+    String filepath="Trainees.txt";
 
+        try {
+            String id =" ";
+            String name=" ";
+            String age=" ";
+            String salary=" ";
+            String universityName=" ";
+            String GPA =" ";
+            String academicYear=" ";
+            
+            FileReader fr = new FileReader(filepath);
+            BufferedReader brr= new BufferedReader(fr);
+            Scanner w = new Scanner(new File(filepath));
+            w.useDelimiter("[@\n]");
+            while(w.hasNext())
+            {
+                id=w.next();
+                name=w.next();
+                age=w.next();
+                salary=w.next();
+                universityName= w.next();
+                GPA= w.next();
+                academicYear=w.next();
+                System.out.println(id+"\n"+name+"\n"+age+"\n"+ universityName+"\n"+GPA+"\n"+academicYear+"\n");
+            }
+            fr.close();
+        } catch (Exception e) {
+            System.out.println("There is an Exception here !");
+        }
+    }
+    
     public double getGPA() {
         return GPA;
     }
