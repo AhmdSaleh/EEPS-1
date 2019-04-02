@@ -173,7 +173,41 @@ public class Engineer extends Employee{
         }
     }
 
+    public void viewEngineers(){
+        String filepath="Engineers.txt";
 
+        try {
+            String id =" ";
+            String name=" ";
+            String age=" ";
+            String salary=" ";
+            String workHours=" ";
+            String payRate=" ";
+            String tax =" ";
+            String position=" ";
+
+            FileReader fr = new FileReader(filepath);
+            BufferedReader brr= new BufferedReader(fr);
+            Scanner w = new Scanner(new File(filepath));
+            w.useDelimiter("[@\n]");
+            while(w.hasNext())
+            {
+                id=w.next();
+                name=w.next();
+                age=w.next();
+                salary=w.next();
+                workHours = w.next();
+                payRate= w.next();
+                tax=w.next();
+                position = w.next();
+                System.out.println(id+"\n"+name+"\n"+age+"\n"+ salary +"\n"+workHours+"\n"+payRate+"\n"+tax+"\n"+position+"\n");
+            }
+            fr.close();
+            } catch (Exception e) {
+                System.out.println("There is an Exception here !");
+            }
+    }
+    
     public double getworkingHours() {
         return workingHours;
     }
