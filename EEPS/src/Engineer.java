@@ -7,7 +7,8 @@ public class Engineer extends Employee{
     private double workingHours;
     private Grade grade ;
     static int numberOfEngineers ;
-
+//
+private String Manager,TeamLeader,TeamMemeber;
 
 
     public void addEngineer(String name , int id , int age , double workingHours , Grade grade){
@@ -19,8 +20,41 @@ public class Engineer extends Employee{
         this.grade=grade ;
 
         // Gaber will write the fun which calaculate salary and call it here, make it equal 12005.5 for now to test TextFile
-        salary=12005.5 ;
-
+       // salary=12005.5 ;
+salary=0 ;
+        public double CalcSalary(double salary ,double workingHours,Grade grade,double payRate,double tax)
+        {
+        if( this.grade.setPosition(Manager))
+        {
+        payRate=(10*workingHours);
+        tax=(payRate*0.23);
+        salary=payRate-tax;
+        return salary;
+        }
+        else if (this.grade.setPosition(TeamLeader))
+        {
+            payRate=(8*workingHours);
+         tax=(payRate*0.20);
+          salary=payRate-tax;
+        return salary;
+        }
+        else if (this.grade.setPosition(TeamMemeber))
+        {
+            payRate=(6*workingHours);
+         tax=(payRate*0.17);
+          salary=payRate-tax;
+        return salary;
+        }    
+        
+        }
+        
+        
+        
+        
+        
+        
+        
+        
         try {
 
             addTotext (name,id,age,workingHours,grade,salary);
