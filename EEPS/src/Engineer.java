@@ -18,57 +18,33 @@ private String Manager,TeamLeader,TeamMemeber;
         super.setAge(age);
         this.workingHours=workingHours;
         this.grade=grade ;
-
-        // Gaber will write the fun which calaculate salary and call it here, make it equal 12005.5 for now to test TextFile
-       // salary=12005.5 ;
-salary=0 ;
-        public double CalcSalary(double salary ,double workingHours,Grade grade,double payRate,double tax)
-        {
-        if( this.grade.setPosition(Manager))
-        {
-        payRate=(10*workingHours);
-        tax=(payRate*0.23);
-        salary=payRate-tax;
-        return salary;
-        }
-        else if (this.grade.setPosition(TeamLeader))
-        {
-            payRate=(8*workingHours);
-         tax=(payRate*0.20);
-          salary=payRate-tax;
-        return salary;
-        }
-        else if (this.grade.setPosition(TeamMemeber))
-        {
-            payRate=(6*workingHours);
-         tax=(payRate*0.17);
-          salary=payRate-tax;
-        return salary;
-        }    
-        
-        }
-        
-        
-        
-        
-        
-        
-        
-        
-        try {
-
-            addTotext (name,id,age,workingHours,grade,salary);
-            numberOfEngineers++ ;
-
-        }
-
-        catch (IOException dfg) {
-
-            System.out.println("There is an Exception here !");
-
-        }
-
     }
+        //Gaber made a mess :D
+       public double CalcSalary(double salary ,double workingHours,Grade grade)
+        {
+        if( null != this.grade.getPosition() )
+            switch (this.grade.getPosition()) {
+                case "Manager":
+                    this.grade.setpayRate(10*workingHours);
+                    this.grade.setTax(this.grade.getpayRate()*0.23);
+                    this.salary=this.grade.getpayRate()-this.grade.getTax();
+                    break;
+                case "TeamLeader":
+                    this.grade.setpayRate(8*workingHours);
+                    this.grade.setTax(this.grade.getpayRate()*0.20);
+                    this.salary=this.grade.getpayRate()-this.grade.getTax();
+                    break;
+                case "TeamMemeber":
+                    this.grade.setpayRate(6*workingHours);
+                    this.grade.setTax(this.grade.getpayRate()*0.17);
+                    this.salary=this.grade.getpayRate()-this.grade.getTax();
+                    break;
+                default:
+                    System.out.println("There is an Exception here !");
+                    break;
+            }    
+            return salary;
+        }
 
     private void addTotext (String name , int id , int age , double workingHours , Grade grade,double salary) throws IOException {
 
