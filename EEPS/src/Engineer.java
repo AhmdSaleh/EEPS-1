@@ -7,9 +7,6 @@ public class Engineer extends Employee{
     private double workingHours;
     private Grade grade ;
     static int numberOfEngineers ;
-//
-private String Manager,TeamLeader,TeamMemeber;
-
 
     public void addEngineer(String name , int id , int age , double workingHours , Grade grade){
 
@@ -18,33 +15,44 @@ private String Manager,TeamLeader,TeamMemeber;
         super.setAge(age);
         this.workingHours=workingHours;
         this.grade=grade ;
-    }
-        //Gaber made a mess :D
-       public double CalcSalary(double salary ,double workingHours,Grade grade)
-        {
-        if( null != this.grade.getPosition() )
-            switch (this.grade.getPosition()) {
-                case "Manager":
-                    this.grade.setpayRate(10*workingHours);
-                    this.grade.setTax(this.grade.getpayRate()*0.23);
-                    this.salary=this.grade.getpayRate()-this.grade.getTax();
-                    break;
-                case "TeamLeader":
-                    this.grade.setpayRate(8*workingHours);
-                    this.grade.setTax(this.grade.getpayRate()*0.20);
-                    this.salary=this.grade.getpayRate()-this.grade.getTax();
-                    break;
-                case "TeamMemeber":
-                    this.grade.setpayRate(6*workingHours);
-                    this.grade.setTax(this.grade.getpayRate()*0.17);
-                    this.salary=this.grade.getpayRate()-this.grade.getTax();
-                    break;
-                default:
-                    System.out.println("There is an Exception here !");
-                    break;
-            }    
-            return salary;
+        this.salary = CalcSalary(workingHours, grade);
+        try {
+
+            addTotext (this.name,this.id,this.age,this.workingHours , this.grade,this.salary);
+            numberOfEngineers++ ;
+
         }
+
+        catch (IOException dfg) {
+
+            System.out.println("There is an Exception here !");
+
+        }
+    }
+    
+    public double CalcSalary(double workingHours,Grade grade)
+    {
+        if( null != this.grade.getPosition() )
+        switch (this.grade.getPosition()) {
+            case "Manager":
+                this.grade.setpayRate(10*workingHours);
+                this.grade.setTax(this.grade.getpayRate()*0.23);
+                break;
+            case "TeamLeader":
+                this.grade.setpayRate(8*workingHours);
+                this.grade.setTax(this.grade.getpayRate()*0.20);
+                break;
+            case "TeamMemeber":
+                this.grade.setpayRate(6*workingHours);
+                this.grade.setTax(this.grade.getpayRate()*0.17);
+                break;
+            default:
+                System.out.println("There is an Exception here !");
+                break;
+        }
+        double salary=this.grade.getpayRate()-this.grade.getTax();
+        return salary;
+}
 
     private void addTotext (String name , int id , int age , double workingHours , Grade grade,double salary) throws IOException {
 
