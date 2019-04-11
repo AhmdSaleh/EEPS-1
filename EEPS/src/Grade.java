@@ -12,6 +12,8 @@ public class Grade {
 
     }
 
+    Grade() {};
+
     public double getTax() {
         return tax;
     }
