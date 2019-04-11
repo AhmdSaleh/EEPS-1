@@ -45,7 +45,7 @@ abstract class Employee {
         this.salary = salary;
     }
 
-
+    
 
     // Add here any methods for the Employee ...
 
