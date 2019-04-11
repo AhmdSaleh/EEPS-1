@@ -1,5 +1,9 @@
 import java.io.*;
 import java.util.Scanner;
+import java.io.BufferedReader;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class Engineer extends Employee{
@@ -8,10 +12,60 @@ public class Engineer extends Employee{
     private Grade grade ;
     static int numberOfEngineers ;
 
-    public void addEngineer(String name , int id , int age , double workingHours , Grade grade){
+
+    public double CalcSalary(double workingHours,Grade grade)
+        {
+            if( null != this.grade.getPosition() )
+            switch (this.grade.getPosition()) {
+                case "Manager":
+                    this.grade.setpayRate(10*workingHours);
+                    this.grade.setTax(this.grade.getpayRate()*0.23);
+                    break;
+                case "Team Leader":
+                    this.grade.setpayRate(8*workingHours);
+                    this.grade.setTax(this.grade.getpayRate()*0.20);
+                    break;
+                case "Team Memeber":
+                    this.grade.setpayRate(6*workingHours);
+                    this.grade.setTax(this.grade.getpayRate()*0.17);
+                    break;
+                default:
+                    System.out.println("There is an Exception here !");
+                    break;
+            }
+            double salary=this.grade.getpayRate()-this.grade.getTax();
+            return salary;
+    }
+    
+    private int makeID() {
+        int id = 0;
+        try {
+
+            FileReader fr = new FileReader("EngineersIDs.txt");
+            BufferedReader br= new BufferedReader(fr);
+            Scanner s = new Scanner(new File("EngineersIDs.txt"));
+            while(s.hasNext())
+            {
+                id=s.nextInt()+1;
+            }
+            fr.close();
+            
+            File file = new File("Engineers.txt");
+            FileWriter fw = new FileWriter(file);
+            PrintWriter pw = new PrintWriter(fw);
+            pw.print(id);
+            pw.close();
+            
+            } catch (Exception e) {
+                System.out.println("There is an Exception here !");
+            }
+        return id;
+    } 
+    
+    public void addEngineer(String name , int age , double workingHours , Grade grade){
 
         super.setName(name);
-        super.setId(id);
+        this.id = makeID();
         super.setAge(age);
         this.workingHours=workingHours;
         this.grade=grade ;
@@ -29,30 +83,6 @@ public class Engineer extends Employee{
 
         }
     }
-    
-    public double CalcSalary(double workingHours,Grade grade)
-    {
-        if( null != this.grade.getPosition() )
-        switch (this.grade.getPosition()) {
-            case "Manager":
-                this.grade.setpayRate(10*workingHours);
-                this.grade.setTax(this.grade.getpayRate()*0.23);
-                break;
-            case "TeamLeader":
-                this.grade.setpayRate(8*workingHours);
-                this.grade.setTax(this.grade.getpayRate()*0.20);
-                break;
-            case "TeamMemeber":
-                this.grade.setpayRate(6*workingHours);
-                this.grade.setTax(this.grade.getpayRate()*0.17);
-                break;
-            default:
-                System.out.println("There is an Exception here !");
-                break;
-        }
-        double salary=this.grade.getpayRate()-this.grade.getTax();
-        return salary;
-}
 
     private void addTotext (String name , int id , int age , double workingHours , Grade grade,double salary) throws IOException {
 
@@ -190,7 +220,7 @@ public class Engineer extends Employee{
 
         }
     }
-
+    
     public void viewEngineers(){
         String filepath="Engineers.txt";
 
@@ -226,6 +256,65 @@ public class Engineer extends Employee{
             }
     }
     
+    
+    public List<List<String>> searchEngineer(String forSearch)
+    {
+    String filepath="Engineers.txt";
+
+    List<List<String>> searchResults = null;
+    
+        try {
+            String id =" ";
+            String name=" ";
+            String age=" ";
+            String salary=" ";
+            String workHours=" ";
+            String payRate=" ";
+            String tax =" ";
+            String position=" ";
+            
+            
+            FileReader fr = new FileReader(filepath);
+            BufferedReader brr= new BufferedReader(fr);
+            Scanner w = new Scanner(new File(filepath));
+            w.useDelimiter("[@\n]");
+            while(w.hasNext())
+            {
+                List<String> results = null;
+                
+                id=w.next();
+                name=w.next();
+                age=w.next();
+                salary=w.next();
+                workHours = w.next();
+                payRate= w.next();
+                tax=w.next();
+                position = w.next();
+                
+                if(id == forSearch || name == forSearch || age == forSearch || salary == forSearch || workHours == forSearch || payRate == forSearch || tax == forSearch || position == forSearch){
+                    
+                    results.add(id);
+                    results.add(name);
+                    results.add(age);
+                    results.add(salary);
+                    results.add(workHours);
+                    results.add(payRate);
+                    results.add(tax);
+                    results.add(position);
+
+                    searchResults.add(results);
+                    
+                }
+            }
+            fr.close();
+        } catch (Exception e) {
+            System.out.println("There is an Exception here !");
+        }
+        return searchResults;
+    }
+    
+
+
     public double getworkingHours() {
         return workingHours;
     }
@@ -244,7 +333,6 @@ public class Engineer extends Employee{
 
 
     // Add here any methods for the Engineer ...
-
 
 }
 
