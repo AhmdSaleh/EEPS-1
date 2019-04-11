@@ -1,19 +1,72 @@
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+import java.util.Scanner;
+
 public class Trainee extends Employee{
 
+    static int numberOfTrainees;
     private String universityName ;
     private double GPA ;
     private int academicYear ;
     private final double traineesalary = 1500 ;
 
-    public void AddNewTrainee (String name , int id , int age , String universityName , double GPA , int academicYear){
+    
+    private int makeID() {
+        int id = 0;
+        try {
+
+            FileReader fr = new FileReader("TraineesIDs.txt");
+            BufferedReader br= new BufferedReader(fr);
+            Scanner s = new Scanner(new File("TraineesIDs.txt"));
+            while(s.hasNext())
+            {
+                id=s.nextInt()+1;
+            }
+            fr.close();
+            
+            File file = new File("Engineers.txt");
+            FileWriter fw = new FileWriter(file);
+            PrintWriter pw = new PrintWriter(fw);
+            pw.print(id);
+            pw.close();
+            
+            } catch (Exception e) {
+                System.out.println("There is an Exception here !");
+            }
+        return id;
+    }
+    
+    
+    public void AddTrainee (String name , int age , String universityName , double GPA , int academicYear){
 
         super.setName(name);
-        super.setId(id);
+        this.id = makeID();
         super.setAge(age);
         this.universityName=universityName;
         this.GPA=GPA;
         this.academicYear=academicYear;
+        this.salary = traineesalary;
+        
+        try {
 
+            addTotext (name,id,age,universityName,GPA,academicYear);
+            numberOfTrainees++ ;
+
+        }
+
+        catch (IOException dfg) {
+
+            System.out.println("There is an Exception here !");
+
+        }
+        
     }
     
     private void addTotext (String name , int id , int age , String universityName , double GPA , int academicYear) throws IOException {
@@ -28,7 +81,7 @@ public class Trainee extends Employee{
         pw.print(String.format("%s@", salary));
         pw.print(String.format("%s@", universityName));
         pw.print(String.format("%s@", GPA));
-        pw.print(String.format("%s@", academicYear));
+        pw.println(String.format("%s", academicYear));
 
         pw.close();
     }
@@ -144,7 +197,6 @@ public class Trainee extends Employee{
 
         }
     }
-    
     public void viewTrainees()
     {
     String filepath="Trainees.txt";
@@ -179,6 +231,66 @@ public class Trainee extends Employee{
         }
     }
     
+    public List<List<String>> searchTrainees(String forSearch)
+    {
+    String filepath="Trainees.txt";
+
+    List<List<String>> searchResults = null;
+    
+        try {
+            String id =" ";
+            String name=" ";
+            String age=" ";
+            String salary=" ";
+            String universityName=" ";
+            String GPA =" ";
+            String academicYear=" ";
+            
+            
+            FileReader fr = new FileReader(filepath);
+            BufferedReader brr= new BufferedReader(fr);
+            Scanner w = new Scanner(new File(filepath));
+            w.useDelimiter("[@\n]");
+            while(w.hasNext())
+            {
+                List<String> results = null;
+                
+                id=w.next();
+                name=w.next();
+                age=w.next();
+                salary=w.next();
+                universityName= w.next();
+                GPA= w.next();
+                academicYear=w.next();
+                if(id == forSearch || name == forSearch || age == forSearch || salary == forSearch || universityName == forSearch || GPA == forSearch || academicYear == forSearch){
+                    results.add(id);
+                    results.add(name);
+                    results.add(age);
+                    results.add(salary);
+                    results.add(universityName);
+                    results.add(GPA);
+                    results.add(academicYear);
+                    searchResults.add(results);
+                }
+            }
+            fr.close();
+        } catch (Exception e) {
+            System.out.println("There is an Exception here !");
+        }
+        return searchResults;
+    }
+    
+    public void upgradeTrainee(String upgradeID, String tmpPosition, double workhours){
+        
+        deleteTrainee(upgradeID);
+        Grade tmpGrade = new Grade();
+        tmpGrade.setPosition(tmpPosition);
+        Engineer tempEmp = new Engineer();
+        double tempSalary = tempEmp.CalcSalary(workhours, tmpGrade);
+        tempEmp.addEngineer(name, age, workhours, tmpGrade);
+        
+    }
+
     public double getGPA() {
         return GPA;
     }
