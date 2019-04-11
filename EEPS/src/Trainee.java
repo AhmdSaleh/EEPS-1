@@ -31,7 +31,7 @@ public class Trainee extends Employee{
             }
             fr.close();
             
-            File file = new File("Engineers.txt");
+            File file = new File("TraineesIDs.txt");
             FileWriter fw = new FileWriter(file);
             PrintWriter pw = new PrintWriter(fw);
             pw.print(id);
